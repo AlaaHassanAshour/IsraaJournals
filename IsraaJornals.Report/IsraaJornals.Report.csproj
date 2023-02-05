@@ -7,7 +7,63 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="MunscriptReport.rdlc" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="MunscriptReport.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\IsraaJornal.ViewModel\IsraaJornal.ViewModel.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="IsraaJournalsDBDataSet.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>IsraaJournalsDBDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Update="IsraaJournalsDBDataSet1.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>IsraaJournalsDBDataSet1.xsd</DependentUpon>
+    </Compile>
+    <Compile Update="IsraaJournalsDBDataSet2.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>IsraaJournalsDBDataSet2.xsd</DependentUpon>
+    </Compile>
+    <Compile Update="IsraaJournalsDBDataSet3.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>IsraaJournalsDBDataSet3.xsd</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="IsraaJournalsDBDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>IsraaJournalsDBDataSet.Designer.cs</LastGenOutput>
+    </None>
+    <None Update="IsraaJournalsDBDataSet1.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>IsraaJournalsDBDataSet1.Designer.cs</LastGenOutput>
+    </None>
+    <None Update="IsraaJournalsDBDataSet2.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>IsraaJournalsDBDataSet2.Designer.cs</LastGenOutput>
+    </None>
+    <None Update="IsraaJournalsDBDataSet3.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>IsraaJournalsDBDataSet3.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
 
 </Project>

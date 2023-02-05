@@ -7,12 +7,13 @@ using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using AspNetCore.Reporting;
 using System.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IsraaJournals.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ReportController : Controller
+    [AllowAnonymous]
+   
+    public class ReportController : BaseController
     {
         private readonly ApplicationDbContext _context;
 
@@ -93,35 +94,47 @@ namespace IsraaJournals.Controllers
                     }).ToList(),
                 })
                 .FirstOrDefault(x => x.Id == id);
-
-            #endregion
-
+            List<Manuscript> list = new List<Manuscript>();
+            
             Manuscript manuscript = new Manuscript()
             {
-                Id = model.Id,
-                Abstract = model.Abstract,
-                ArticleId = 5,
-                NumberOfAuthor = model.NumberOfAuthor,
-                AutherId = "sa",
-                JournalId = 4,
                 Keyword = model.Keyword,
+                Abstract = model.Abstract,
+                NumberOfAuthor = model.NumberOfAuthor,
                 NumberOfPage = model.NumberOfPage,
                 title = model.title,
-                RecarcheTypeId = 4,
-                SectionId = 5,
-            };
+                ArticleId = model.Article.Id,
+                AutherId = model.appUser.Id,
+                JournalId = model.Id,
+                Id = model.Id,
+                RecarcheTypeId= model.RecarcheType.Id,
 
-            var assamble = Assembly.GetExecutingAssembly();
-            var Location = assamble.Location;
-            var dictory = Path.GetDirectoryName(Location);
-            var path = Path.Combine(dictory, "MunscriptReport.rdlc");
-            LocalReport report = new LocalReport(path);
-            report.AddDataSource("DataSet2", manuscript);
-            Dictionary<string, string> data = new Dictionary<string, string>();
-            data.Add("Logo", "asdasdasdasdasdadsasd");
-            var resulat = report.Execute(RenderType.Pdf, parameters: data);
-            return File(resulat.MainStream, "application/pdf");
+            };
+            list.Add(manuscript);
+            #endregion
+
+            if (model!=null)
+            {
+                var assamble = Assembly.GetExecutingAssembly();
+                var Location = assamble.Location;
+                var dictory = Path.GetDirectoryName(Location);
+                var path = Path.Combine(dictory, "MunscriptReport.rdlc");
+                LocalReport report = new LocalReport(path);
+                report.AddDataSource("DataSet1", model.Authors);
+                report.AddDataSource("DataSet2", model.SuggestReivewrs);
+                report.AddDataSource("DataSet3", model.ExcludeReviwers);
+                report.AddDataSource("DataSet4", list);
+                Dictionary<string, string> parameters = new Dictionary<string, string>();
+                parameters.Add("Logo", "RDLC report");
+                var resulat = report.Execute(RenderType.Pdf, parameters: parameters);
+                return File(resulat.MainStream, "application/pdf");
+            }
+
+              return Ok(list);
+            }
+     
+
+        
         }
 
     }
-}
